@@ -1,0 +1,79 @@
+- name: Wait for become yes
+  hosts:
+    - tag_Name_inventory_gorup_elk_distributed
+  connection: ssh
+  gather_facts: no
+  remote_user: ubuntu
+  tasks:
+    - command: sleep "{{ item }}"
+      become: yes
+      with_items:
+        - 1
+        - 15
+
+- name: Install and configure elastcisearch for the whole group
+  hosts:
+    - tag_Name_elk_master_1
+    - tag_Name_elk_client_1
+    - tag_Name_elk_data_1
+    - tag_Name_elk_data_2
+  connection: ssh
+  gather_facts: yes
+
+  remote_user: ubuntu
+
+  vars_files:
+    - vars/aws/elk/distributed/elk.yaml
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+  roles:
+    - name: elasticsearch
+
+- name: Install and configure kibana in the client machines
+  hosts:
+    - tag_Name_elk_client_1
+  connection: ssh
+  gather_facts: yes
+
+  remote_user: ubuntu
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+  roles:
+    - name: kibana
+
+- name: Install and configure logstash on data machines
+  hosts:
+    - tag_Name_elk_data_1
+    - tag_Name_elk_data_2
+  connection: ssh
+  gather_facts: yes
+
+  remote_user: ubuntu
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+  roles:
+    - name: logstash

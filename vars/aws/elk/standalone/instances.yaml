@@ -1,0 +1,5 @@
+instances:
+  - name: elk_standalone
+    group: "elk"
+    security_group: ["elk"]
+    instance_type: "t2.medium"

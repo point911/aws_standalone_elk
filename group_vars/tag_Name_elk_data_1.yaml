@@ -1,0 +1,19 @@
+ansible_ssh_private_key_file: keys/elk_distributed
+
+elasticsearch:
+  cluster_name: distributed
+  discovery_zen_ping_unicast_hosts: "{{ hostvars[groups['tag_Name_elk_master_1'][0]]['ec2_private_ip_address'] }}"
+  extra_config: ["node.master: false", "node.data: true"]
+
+
+logstash:
+
+  outputs:
+    elasticsearch:
+      host: "{{ hostvars[groups['tag_Name_elk_data_1'][0]]['ec2_private_ip_address'] }}"
+      port: 9200
+
+
+  plugins: []
+
+  plugins_update: []

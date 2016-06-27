@@ -1,0 +1,17 @@
+---
+
+# These playbooks were used as a templates but there are some misconfigurations
+
+- name: sansible.logstash
+  src: https://github.com/sansible/logstash
+  version: origin/master
+
+
+- name: sansible.kibana
+  src: https://github.com/sansible/kibana
+  version: origin/master
+
+
+- name: sansible.elasticsearch
+  src: https://github.com/sansible/elasticsearch
+  version: origin/master

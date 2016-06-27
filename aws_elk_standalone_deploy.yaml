@@ -1,0 +1,38 @@
+- name: Wait for become yes
+  hosts:
+    - tag_Name_elk_standalone
+  connection: ssh
+  gather_facts: no
+  remote_user: ubuntu
+  tasks:
+    - command: sleep "{{ item }}"
+      become: yes
+      with_items:
+        - 1
+        - 15
+
+- name: Install and configure logstash for the app
+  hosts:
+    - tag_Name_elk_standalone
+  connection: ssh
+  gather_facts: yes
+
+  remote_user: ubuntu
+
+  vars_files:
+    - vars/aws/elk/standalone/elk.yaml
+
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+  roles:
+    - name: logstash
+    - name: elasticsearch
+    - name: kibana

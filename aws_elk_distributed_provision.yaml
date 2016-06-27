@@ -1,0 +1,13 @@
+- name: Provision logproducer environment
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars_files:
+    - vars/aws/elk/distributed/instances.yaml
+    - vars/aws/elk/distributed/security_groups.yaml
+
+  tasks:
+    - include: tasks/aws/keypair.yaml name="elk_distributed"
+    - include: tasks/aws/securitygroup.yaml
+    - include: tasks/aws/instance.yaml keypair="elk_distributed"
