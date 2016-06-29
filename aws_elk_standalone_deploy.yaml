@@ -36,3 +36,4 @@
     - name: logstash
     - name: elasticsearch
     - name: kibana
+    - name: teampants.elastalert

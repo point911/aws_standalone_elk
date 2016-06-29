@@ -27,16 +27,13 @@
     src: service.j2
     dest: /etc/init.d/kibana4
     mode: 764
-#  notify:
-#    - start kibana
-    
+
+
 - name: Enable Kibana service
   become: yes
   service:
     name: kibana4
     enabled: yes
-#  notify:
-#    - start kibana
 
 
 - name: Install Kibana plugins

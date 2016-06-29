@@ -8,6 +8,6 @@
     - vars/aws/elk/distributed/security_groups.yaml
 
   tasks:
-    - include: tasks/aws/keypair.yaml name="elk_distributed"
-    - include: tasks/aws/securitygroup.yaml
-    - include: tasks/aws/instance.yaml keypair="elk_distributed"
+    - include: tasks/aws/keypair.yaml name="elk_distributed" region="us-west-2"
+    - include: tasks/aws/securitygroup.yaml region="us-west-2"
+    - include: tasks/aws/instance.yaml keypair="elk_distributed" region="us-west-2"

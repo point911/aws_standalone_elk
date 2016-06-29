@@ -1,17 +1,18 @@
 ---
 
-# These playbooks were used as a templates but there are some misconfigurations
-
-- name: sansible.logstash
-  src: https://github.com/sansible/logstash
+- name: sansible.users_and_groups
+  src: https://github.com/sansible/users_and_groups
   version: origin/master
 
 
-- name: sansible.kibana
-  src: https://github.com/sansible/kibana
-  version: origin/master
+- name: tersmitten.logrotated
+  src: https://github.com/Oefenweb/ansible-logrotated
+  version: v1.2.0
 
+- name: tersmitten.pip
+  src: https://github.com/Oefenweb/ansible-pip
+  version: v1.0.2
 
-- name: sansible.elasticsearch
-  src: https://github.com/sansible/elasticsearch
-  version: origin/master
+- name: dwcramer.upstart
+  src: https://github.com/dwcramer/ansible-upstart
+  version: 0.1.0

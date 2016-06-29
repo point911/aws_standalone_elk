@@ -5,8 +5,8 @@
   template:
     src: kibana.yml.j2
     dest: "{{ kibana.install_dir }}/config/kibana.yml"
-#  notify:
-#    - start kibana
+  notify:
+    - start kibana
 
 # This part does not work with current upstart script
 - name: Ensure Kibana service is started

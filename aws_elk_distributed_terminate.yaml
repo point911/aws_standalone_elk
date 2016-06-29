@@ -1,0 +1,13 @@
+- name: Terminate elk cluster environment
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars_files:
+    - vars/aws/elk/distributed/instances.yaml
+    - vars/aws/elk/distributed/security_groups.yaml
+
+  tasks:
+    - include: tasks/aws/instance_terminate.yaml region="us-west-2"
+    - include: tasks/aws/keypair_terminate.yaml name="elk_distributed" region="us-west-2"
+    - include: tasks/aws/securitygroup_terminate.yaml region="us-west-2"

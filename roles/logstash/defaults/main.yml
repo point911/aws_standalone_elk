@@ -11,11 +11,6 @@ logstash:
   version: 1:2.3.1-1
 
   inputs:
-    json:
-      port: 5001
-    file:
-      path: /tmp/output.log
-
     kafka:
       host: "{{ hostvars[groups['tag_Name_learnkafka'][0]]['ec2_private_ip_address'] }}:2181"
       topic_id: logstash
@@ -28,12 +23,6 @@ logstash:
       host: "{{ hostvars[groups['tag_Name_elk_standalone'][0]]['ec2_private_ip_address'] }}"
       port: 9200
 
-    kafka:
-      host: "{{ hostvars[groups['tag_Name_learnkafka'][0]]['ec2_private_ip_address'] }}:9092"
-      topic_id: logstash
-
-  plugins:
-    - logstash-patterns-core
-    - logstash-filter-prune
+  plugins: []
 
   plugins_update: []
