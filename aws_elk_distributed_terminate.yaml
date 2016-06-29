@@ -1,4 +1,4 @@
-- name: Terminate elk cluster environment
+- name: Terminate distributed elk cluster environment
   hosts: localhost
   gather_facts: false
   connection: local
