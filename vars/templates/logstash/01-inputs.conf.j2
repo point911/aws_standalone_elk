@@ -1,0 +1,11 @@
+##
+# {{ ansible_managed }}
+#
+
+
+input {
+    kafka {
+            zk_connect => '{{ logstash.inputs.kafka.host }}'
+            topic_id => 'logstash'
+    }
+}

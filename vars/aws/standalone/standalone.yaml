@@ -1,13 +1,8 @@
 java:
-  version: 7
+  version: 8
 
 aws_vars_template_path: vars/aws/standalone/aws.yaml.template
 aws_vars_path: vars/aws/standalone/aws.yaml
-
-logstash:
-  plugins: []
-
-elastalert_elasticsearch_host: "{{ hostvars[groups['elk_standalone'][0]]['ec2_private_ip_address'] }}"
 
 
 env:
@@ -49,3 +44,28 @@ env:
 
     key:
       name: standalone_elk
+
+
+elastalert_elasticsearch_host: "{{ ec2_private_ip_address }}"
+
+####################
+# LOGSTASH SECTION #
+####################
+
+
+logstash_input_zookeeper_servers_group: "{{ lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') if lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') != '' else 'standalone_kafka' }}"
+
+logstash:
+  templates_path: "vars/templates/logstash/"
+
+  inputs:
+    kafka:
+      host: "{{ groups['tag_inventory_group_'+logstash_input_zookeeper_servers_group]|map('extract', hostvars, 'ec2_private_ip_address')|list|join(':2181,')+':2181' }}"
+      topic_id: logstash
+
+  outputs:
+    elasticsearch:
+      host: "{{ ec2_private_ip_address }}"
+      port: 9200
+
+
