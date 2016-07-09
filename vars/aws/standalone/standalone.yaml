@@ -68,4 +68,11 @@ logstash:
       host: "{{ ec2_private_ip_address }}"
       port: 9200
 
+  plugins: []
 
+
+kibana:
+  host: "{{ ec2_private_ip_address }}"
+
+  elasticsearch:
+    host: "{{ ec2_private_ip_address }}"
