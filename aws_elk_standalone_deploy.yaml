@@ -1,9 +1,13 @@
 - name: Wait for become yes
   hosts:
-    - tag_Name_elk_standalone
+    - tag_inventory_group_{{ env.aws.instances.inventory_group }}
   connection: ssh
-  gather_facts: no
+  gather_facts: yes
   remote_user: ubuntu
+
+  vars_files:
+    - vars/aws/standalone/standalone.yaml
+
   tasks:
     - command: sleep "{{ item }}"
       become: yes
@@ -11,17 +15,18 @@
         - 1
         - 15
 
-- name: Install and configure logstash for the app
+- name: Install kafka and zookeeper
   hosts:
-    - tag_Name_elk_standalone
+    - tag_inventory_group_{{ env.aws.instances.inventory_group }}
   connection: ssh
   gather_facts: yes
 
   remote_user: ubuntu
 
   vars_files:
-    - vars/aws/elk/standalone/elk.yaml
-
+    - vars/ssh_users/ssh_users.yaml
+    - vars/aws/standalone/standalone.yaml
+    - vars/aws/standalone/aws.yaml
 
   pre_tasks:
     - name: Update apt
@@ -33,7 +38,13 @@
         - build
 
   roles:
-    - name: logstash
-    - name: elasticsearch
-    - name: kibana
-    - name: teampants.elastalert
+    - name: community/ssh
+    - name: community/java
+    - name: community/logstash
+    - name: community/elasticsearch
+    - name: community/kibana
+    - name: community/elastalert
+
+
+  post_tasks:
+    - include: tasks/aws/eject_public_key.yaml
