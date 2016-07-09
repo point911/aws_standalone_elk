@@ -1,4 +1,4 @@
-aws_vars_template_path: vars/aws/standalobne/aws.yaml.template
+aws_vars_template_path: vars/aws/standalone/aws.yaml.template
 aws_vars_path: vars/aws/standalone/aws.yaml
 
 

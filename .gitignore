@@ -13,3 +13,5 @@ keys
 # Ansible debug playbook
 aws_get_debug_info.yaml
 
+aws.yaml
+
