@@ -11,7 +11,7 @@
 
 - name: tersmitten.pip
   src: https://github.com/Oefenweb/ansible-pip
-  version: v1.0.2
+  version: v1.3.0
 
 - name: dwcramer.upstart
   src: https://github.com/dwcramer/ansible-upstart
