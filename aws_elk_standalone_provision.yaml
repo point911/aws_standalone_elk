@@ -1,13 +1,13 @@
-- name: Provision logproducer environment
+- name: Provision elk standalone environment
   hosts: localhost
   gather_facts: false
   connection: local
 
   vars_files:
-    - vars/aws/elk/standalone/instances.yaml
-    - vars/aws/elk/standalone/security_groups.yaml
+    - vars/aws/standalone/standalone.yaml
+    - vars/aws/standalone/aws.yaml
 
   tasks:
-    - include: tasks/aws/keypair.yaml name="elk_standalone"
+    - include: tasks/aws/keypair.yaml
     - include: tasks/aws/securitygroup.yaml
-    - include: tasks/aws/instance.yaml keypair="elk_standalone"
+    - include: tasks/aws/instances.yaml

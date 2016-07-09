@@ -1,0 +1,43 @@
+aws_vars_template_path: vars/aws/standalobne/aws.yaml.template
+aws_vars_path: vars/aws/standalone/aws.yaml
+
+
+env:
+  name: "standalone_elk"
+  aws:
+    region: us-west-2
+    security_group:
+      name: standalone_elk
+      rules:
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 9200
+          to_port: 9200
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 5601
+          to_port: 5601
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 9300
+          to_port: 9300
+          cidr_ip: 0.0.0.0/0
+
+      rules_egress:
+        - proto: all
+          cidr_ip: "0.0.0.0/0"
+
+
+    instances:
+      number: "{{ lookup('env','AWS_INSTANCE_NUMBER') if lookup('env','AWS_INSTANCE_NUMBER') != '' else 1 }}"
+      name: "standalone_elk_app"
+      type: t2.medium
+      # Termination by this criteria
+      inventory_group: "{{ lookup('env','AWS_INVENTORY_GROUP') if lookup('env','AWS_INVENTORY_GROUP') != '' else 'standalone_kafka' }}"
+      security_groups: ["standalone_elk"]
+
+    key:
+      name: standalone_elk

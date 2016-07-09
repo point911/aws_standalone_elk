@@ -1,6 +1,6 @@
 - name: Wait for become yes
   hosts:
-    - security_group_elk_distributed
+    - security_group_elk_distributed_test
   connection: ssh
   gather_facts: no
   remote_user: ubuntu

@@ -1,5 +1,5 @@
 security_groups:
-  - name: elk_distributed
+  - name: elk_distributed_test
     rules:
       - proto: tcp
         from_port: 9200
