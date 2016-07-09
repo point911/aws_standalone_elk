@@ -20,6 +20,7 @@
     - tag_inventory_group_{{ env.aws.instances.inventory_group }}
   connection: ssh
   gather_facts: yes
+  become: yes
 
   remote_user: ubuntu
 
@@ -30,7 +31,6 @@
 
   pre_tasks:
     - name: Update apt
-      become: yes
       apt:
         cache_valid_time: 1800
         update_cache: yes
