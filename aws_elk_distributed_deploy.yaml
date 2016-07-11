@@ -28,6 +28,7 @@
   remote_user: ubuntu
 
   vars_files:
+    - vars/ssh_users/ssh_users.yaml
     - vars/aws/distributed/distributed.yaml
 
   pre_tasks:
