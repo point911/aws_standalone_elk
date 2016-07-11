@@ -42,7 +42,7 @@
   roles:
     - name: community/ssh
     - name: community/java
-    - name: elasticsearch
+    - name: community/elasticsearch
 
 - name: Install and configure logstash on data machines
   hosts:
