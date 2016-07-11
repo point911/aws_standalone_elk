@@ -75,6 +75,8 @@ env:
 logstash_input_zookeeper_servers_group: "{{ lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') if lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') != '' else 'standalone_kafka' }}"
 
 logstash:
+  templates_path: "vars/templates/logstash/"
+
   inputs:
     kafka:
       host: "{{ groups['tag_inventory_group_'+logstash_input_zookeeper_servers_group]|map('extract', hostvars, 'ec2_private_ip_address')|list|join(':2181,')+':2181' }}"
