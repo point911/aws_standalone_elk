@@ -6,7 +6,7 @@
   connection: local
 
   vars_files:
-    - vars/aws/standalone/standalone.yaml
+    - vars/aws/distributed/distributed.yaml
 
   roles:
     - name: community/aws_config

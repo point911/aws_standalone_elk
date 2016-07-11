@@ -1,0 +1,100 @@
+java:
+  version: 8
+
+aws_vars_template_path: vars/aws/distributed/aws.yaml.template
+aws_vars_path: vars/aws/distributed/aws.yaml
+
+elasticsearch:
+  cluster_name: distributed_cluster_name
+  discovery_zen_ping_unicast_hosts: "{{ groups['tag_inventory_group_elk_master']|map('extract', hostvars, 'ec2_private_ip_address')|list|join(',') }}"
+  index:
+    number_of_shards: 2
+    number_of_replicas: 1
+
+env:
+  name: "distributed_elk"
+  aws:
+    region: us-west-2
+    security_group:
+      name: distributed_elk
+      rules:
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 9200
+          to_port: 9200
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 5601
+          to_port: 5601
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 9300
+          to_port: 9300
+          cidr_ip: 0.0.0.0/0
+
+      rules_egress:
+        - proto: all
+          cidr_ip: "0.0.0.0/0"
+
+
+    groups:
+      - node_type: master_node
+        instances:
+          number: "{{ lookup('env','AWS_ELK_MASTER_INSTANCE_NUMBER') if lookup('env','AWS_ELK_MASTER_INSTANCE_NUMBER') != '' else 1 }}"
+          name: "distributed_elk_master_app"
+          type: t2.medium
+          # Termination by group criteria
+          inventory_group: elk_master
+          security_groups: ["distributed_elk"]
+
+      - node_type: data_node
+        instances:
+          number: "{{ lookup('env','AWS_ELK_DATA_INSTANCE_NUMBER') if lookup('env','AWS_ELK_DATA_INSTANCE_NUMBER') != '' else 2 }}"
+          name: "distributed_elk_data_app"
+          type: t2.medium
+          # Termination by group criteria
+          inventory_group: elk_data
+          security_groups: ["distributed_elk"]
+
+      - node_type: client_node
+        instances:
+          number: "{{ lookup('env','AWS_ELK_CLIENT_INSTANCE_NUMBER') if lookup('env','AWS_ELK_CLIENT_INSTANCE_NUMBER') != '' else 1 }}"
+          name: "distributed_elk_client_app"
+          type: t2.medium
+          # Termination by group criteria
+          inventory_group: elk_client
+          security_groups: ["distributed_elk"]
+
+    key:
+      name: distributed_elk
+
+
+logstash_input_zookeeper_servers_group: "{{ lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') if lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') != '' else 'standalone_kafka' }}"
+
+logstash:
+  inputs:
+    kafka:
+      host: "{{ groups['tag_inventory_group_'+logstash_input_zookeeper_servers_group]|map('extract', hostvars, 'ec2_private_ip_address')|list|join(':2181,')+':2181' }}"
+      topic_id: logstash
+
+  outputs:
+    elasticsearch:
+      host: "{{ ec2_private_ip_address }}"
+      port: 9200
+
+  plugins: []
+  plugins_update: []
+
+
+kibana:
+  host: "{{ ec2_private_ip_address }}"
+
+  elasticsearch:
+    host: "{{ ec2_private_ip_address }}"
+    port: 9200
+
+
+elastalert_elasticsearch_host: "{{ ec2_private_ip_address }}"

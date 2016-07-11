@@ -48,11 +48,6 @@ env:
 
 elastalert_elasticsearch_host: "{{ ec2_private_ip_address }}"
 
-####################
-# LOGSTASH SECTION #
-####################
-
-
 logstash_input_zookeeper_servers_group: "{{ lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') if lookup('env','LOGSTASH_INPUT_ZOOKEEPER_SERVERS_GROUP') != '' else 'standalone_kafka' }}"
 
 logstash:
@@ -76,5 +71,3 @@ kibana:
 
   elasticsearch:
     host: "{{ ec2_private_ip_address }}"
-
-  plugins: []

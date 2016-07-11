@@ -1,9 +1,15 @@
 - name: Wait for become yes
   hosts:
-    - security_group_elk_distributed_test
+    - tag_inventory_group_elk_master
+    - tag_inventory_group_elk_data
+    - tag_inventory_group_elk_client
   connection: ssh
   gather_facts: no
   remote_user: ubuntu
+
+  vars_files:
+    - vars/aws/distributed/distributed.yaml
+
   tasks:
     - command: sleep "{{ item }}"
       become: yes
@@ -13,17 +19,16 @@
 
 - name: Install and configure elastcisearch for the whole group
   hosts:
-    - tag_Name_elk_master_1
-    - tag_Name_elk_client_1
-    - tag_Name_elk_data_1
-    - tag_Name_elk_data_2
+    - tag_inventory_group_elk_master
+    - tag_inventory_group_elk_data
+    - tag_inventory_group_elk_client
   connection: ssh
   gather_facts: yes
 
   remote_user: ubuntu
 
   vars_files:
-    - vars/aws/elk/distributed/elk.yaml
+    - vars/aws/distributed/distributed.yaml
 
   pre_tasks:
     - name: Update apt
@@ -35,19 +40,20 @@
         - build
 
   roles:
+    - name: community/ssh
+    - name: community/java
     - name: elasticsearch
 
 - name: Install and configure logstash on data machines
   hosts:
-    - tag_Name_elk_data_1
-    - tag_Name_elk_data_2
+    - tag_inventory_group_elk_data
   connection: ssh
   gather_facts: yes
 
   remote_user: ubuntu
 
   vars_files:
-    - vars/aws/elk/distributed/elk.yaml
+    - vars/aws/distributed/distributed.yaml
 
   pre_tasks:
     - name: Update apt
@@ -59,18 +65,18 @@
         - build
 
   roles:
-    - name: logstash
+    - name: community/logstash
 
 - name: Install and configure kibana in the client machines
   hosts:
-    - tag_Name_elk_client_1
+    - tag_inventory_group_elk_client
   connection: ssh
   gather_facts: yes
   become: yes
 
   remote_user: ubuntu
   vars_files:
-    - vars/aws/elk/distributed/elk.yaml
+    - vars/aws/distributed/distributed.yaml
 
   pre_tasks:
     - name: Update apt
@@ -81,5 +87,5 @@
         - build
 
   roles:
-    - name: kibana
-    - name: elastalert
+    - name: community/kibana
+    - name: community/elastalert

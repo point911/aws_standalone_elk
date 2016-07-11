@@ -1,13 +1,13 @@
-- name: Provision logproducer environment
+- name: Provision distributed elk environment
   hosts: localhost
   gather_facts: false
   connection: local
 
   vars_files:
-    - vars/aws/elk/distributed/instances.yaml
-    - vars/aws/elk/distributed/security_groups.yaml
+    - vars/aws/distributed/distributed.yaml
+    - vars/aws/distributed/aws.yaml
 
   tasks:
-#    - include: tasks/aws/keypair.yaml name="ptopsworks" region="us-east-1"
-    - include: tasks/aws/securitygroup.yaml region="us-east-1"
-    - include: tasks/aws/instance.yaml keypair="ptopsworks" region="us-east-1"
+    - include: tasks/aws/keypair.yaml
+    - include: tasks/aws/securitygroup.yaml
+    - include: tasks/aws/instances.yaml

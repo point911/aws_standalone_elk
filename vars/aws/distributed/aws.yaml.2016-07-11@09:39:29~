@@ -1,0 +1,43 @@
+aws:
+  security_groups:
+    - name: "distributed_elk"
+      rules:
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 9200
+          to_port: 9200
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 5601
+          to_port: 5601
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
+          from_port: 9300
+          to_port: 9300
+          cidr_ip: 0.0.0.0/0
+      rules_egress:
+        - proto: all
+          cidr_ip: 0.0.0.0/0
+
+      description: This is a security group for distributed_elk training instances
+
+  instances:
+    - name: "distributed_elk_master_app0"
+      inventory_group: "elk_master"
+      instance_type: "t2.medium"
+      security_group: "[u'distributed_elk']"
+    - name: "distributed_elk_data_app0"
+      inventory_group: "elk_data"
+      instance_type: "t2.medium"
+      security_group: "[u'distributed_elk']"
+    - name: "distributed_elk_client_app0"
+      inventory_group: "elk_client"
+      instance_type: "t2.medium"
+      security_group: "[u'distributed_elk']"
+
+  keypair: "distributed_elk"
+
+  region: "us-west-2"

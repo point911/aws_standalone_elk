@@ -1,0 +1,3 @@
+elasticsearch:
+  extra_config: ["node.master: false", "node.data: true"]
+

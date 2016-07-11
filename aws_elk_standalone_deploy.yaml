@@ -44,7 +44,3 @@
     - name: community/elasticsearch
     - name: community/kibana
     - name: community/elastalert
-
-
-  post_tasks:
-    - include: tasks/aws/eject_public_key.yaml
