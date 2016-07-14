@@ -6,7 +6,7 @@ aws_vars_path: vars/aws/distributed/aws.yaml
 
 elasticsearch:
   cluster_name: distributed_cluster_name
-  discovery_zen_ping_unicast_hosts: "{{ groups['tag_inventory_'+inventory_groups.elk_master]|map('extract', hostvars, 'ec2_private_ip_address')|list|join(',') }}"
+  discovery_zen_ping_unicast_hosts: "{{ groups['tag_inventory_group_'+inventory_groups.elk_master]|map('extract', hostvars, 'ec2_private_ip_address')|list|join(',') }}"
   index:
     number_of_shards: 2
     number_of_replicas: 1
