@@ -1,8 +1,8 @@
 - name: Wait for become yes
   hosts:
-    - tag_inventory_group_elk_master
-    - tag_inventory_group_elk_data
-    - tag_inventory_group_elk_client
+    - tag_inventory_group_{{ inventory_groups.elk_master }}
+    - tag_inventory_group_{{ inventory_groups.elk_data}}
+    - tag_inventory_group_{{ inventory_groups.elk_client }}
   connection: ssh
   gather_facts: no
   remote_user: ubuntu
@@ -19,9 +19,9 @@
 
 - name: Install and configure elastcisearch for the whole group
   hosts:
-    - tag_inventory_group_elk_master
-    - tag_inventory_group_elk_data
-    - tag_inventory_group_elk_client
+    - tag_inventory_group_{{ inventory_groups.elk_master }}
+    - tag_inventory_group_{{ inventory_groups.elk_data}}
+    - tag_inventory_group_{{ inventory_groups.elk_client }}
   connection: ssh
   gather_facts: yes
 
@@ -47,7 +47,7 @@
 
 - name: Install and configure logstash on data machines
   hosts:
-    - tag_inventory_group_elk_data
+    - tag_inventory_group_{{ inventory_groups.elk_data}}
   connection: ssh
   gather_facts: yes
 
@@ -70,7 +70,7 @@
 
 - name: Install and configure kibana in the client machines
   hosts:
-    - tag_inventory_group_elk_client
+    - tag_inventory_group_{{ inventory_groups.elk_client }}
   connection: ssh
   gather_facts: yes
   become: yes
