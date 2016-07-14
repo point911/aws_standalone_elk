@@ -52,7 +52,7 @@ env:
           name: "distributed_elk_master_app"
           type: t2.medium
           # Termination by group criteria
-          inventory_group: inventory_groups.elk_master
+          inventory_group: {{ inventory_groups.elk_master }}
           security_groups: ["distributed_elk"]
 
       - node_type: data_node
@@ -61,7 +61,7 @@ env:
           name: "distributed_elk_data_app"
           type: t2.medium
           # Termination by group criteria
-          inventory_group: inventory_groups.elk_data
+          inventory_group: {{ inventory_groups.elk_data }}
           security_groups: ["distributed_elk"]
 
       - node_type: client_node
@@ -70,7 +70,7 @@ env:
           name: "distributed_elk_client_app"
           type: t2.medium
           # Termination by group criteria
-          inventory_group: inventory_groups.elk_client
+          inventory_group: {{ inventory_groups.elk_client }}
           security_groups: ["distributed_elk"]
 
     key:
