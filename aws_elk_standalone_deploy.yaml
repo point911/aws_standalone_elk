@@ -38,9 +38,9 @@
         - build
 
   roles:
-#    - name: community/ssh
-#    - name: community/java
-#    - name: community/logstash
-#    - name: community/elasticsearch
-#    - name: community/kibana
+    - name: community/ssh
+    - name: community/java
+    - name: community/logstash
+    - name: community/elasticsearch
+    - name: community/kibana
     - name: community/elastalert
