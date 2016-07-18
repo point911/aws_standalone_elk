@@ -44,7 +44,7 @@
     - name: community/ssh
     - name: community/aws_ec2_hostname
     - name: community/java
-    - name: community/elasticsearch
+#    - name: community/elasticsearch
 
 - name: Install and configure logstash on data machines
   hosts:
@@ -89,5 +89,5 @@
         - build
 
   roles:
-    - name: community/kibana
+#    - name: community/kibana
     - name: community/elastalert
