@@ -23,6 +23,7 @@ aws:
       inventory_group: "{{ group.instances.inventory_group }}"
       instance_type: "{{ group.instances.type }}"
       security_group: "{{ group.instances.security_groups }}"
+      assign_public_ip: "{{ group.instances.assign_public_ip }}"
 
 {% endfor %}
 {% endfor %}

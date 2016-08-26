@@ -1,6 +1,3 @@
-java:
-  version: 8
-
 aws_vars_template_path: vars/aws/distributed/aws.yaml.template
 aws_vars_path: vars/aws/distributed/aws.yaml
 
@@ -54,6 +51,7 @@ env:
           # Termination by group criteria
           inventory_group: "{{ inventory_groups.elk_master }}"
           security_groups: ["distributed_elk"]
+          assign_public_ip: "{{ lookup('env','MASTER_NODES_ASSIGN_PUBLIC_IP') if lookup('env','MASTER_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
 
       - node_type: data_node
         instances:
@@ -63,6 +61,7 @@ env:
           # Termination by group criteria
           inventory_group: "{{ inventory_groups.elk_data }}"
           security_groups: ["distributed_elk"]
+          assign_public_ip: "{{ lookup('env','DATA_NODES_ASSIGN_PUBLIC_IP') if lookup('env','DATA_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
 
       - node_type: client_node
         instances:
@@ -72,6 +71,7 @@ env:
           # Termination by group criteria
           inventory_group: "{{ inventory_groups.elk_client }}"
           security_groups: ["distributed_elk"]
+          assign_public_ip: "{{ lookup('env','CLIENT_NODES_ASSIGN_PUBLIC_IP') if lookup('env','CLIENT_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
 
     key:
       name: distributed_elk
