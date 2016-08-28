@@ -46,28 +46,28 @@
     - name: community/java
     - name: community/elasticsearch
 
-- name: Install and configure logstash on data machines
-  hosts:
-    - tag_inventory_group_{{ inventory_groups.elk_data}}
-  connection: ssh
-  gather_facts: yes
-
-  remote_user: ubuntu
-
-  vars_files:
-    - vars/aws/distributed/distributed.yaml
-
-  pre_tasks:
-    - name: Update apt
-      become: yes
-      apt:
-        cache_valid_time: 1800
-        update_cache: yes
-      tags:
-        - build
-
-  roles:
-    - name: community/logstash
+#- name: Install and configure logstash on data machines
+#  hosts:
+#    - tag_inventory_group_{{ inventory_groups.elk_data}}
+#  connection: ssh
+#  gather_facts: yes
+#
+#  remote_user: ubuntu
+#
+#  vars_files:
+#    - vars/aws/distributed/distributed.yaml
+#
+#  pre_tasks:
+#    - name: Update apt
+#      become: yes
+#      apt:
+#        cache_valid_time: 1800
+#        update_cache: yes
+#      tags:
+#        - build
+#
+#  roles:
+#    - name: community/logstash
 
 - name: Install and configure kibana in the client machines
   hosts:
