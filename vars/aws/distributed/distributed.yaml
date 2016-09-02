@@ -52,6 +52,7 @@ env:
           inventory_group: "{{ inventory_groups.elk_master }}"
           security_groups: ["distributed_elk"]
           assign_public_ip: "{{ lookup('env','MASTER_NODES_ASSIGN_PUBLIC_IP') if lookup('env','MASTER_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
+          ebs_optimized: "{{ lookup('env','MASTER_NODES_EBS_OPTIMIZED') if lookup('env','MASTER_NODES_EBS_OPTIMIZED') != '' else 'False' }}"
 
       - node_type: data_node
         instances:
@@ -62,6 +63,7 @@ env:
           inventory_group: "{{ inventory_groups.elk_data }}"
           security_groups: ["distributed_elk"]
           assign_public_ip: "{{ lookup('env','DATA_NODES_ASSIGN_PUBLIC_IP') if lookup('env','DATA_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
+          ebs_optimized: "{{ lookup('env','DATA_NODES_EBS_OPTIMIZED') if lookup('env','DATA_NODES_EBS_OPTIMIZED') != '' else 'False' }}"
 
       - node_type: client_node
         instances:
@@ -72,6 +74,7 @@ env:
           inventory_group: "{{ inventory_groups.elk_client }}"
           security_groups: ["distributed_elk"]
           assign_public_ip: "{{ lookup('env','CLIENT_NODES_ASSIGN_PUBLIC_IP') if lookup('env','CLIENT_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
+          ebs_optimized: "{{ lookup('env','CLIENT_NODES_EBS_OPTIMIZED') if lookup('env','CLIENT_NODES_EBS_OPTIMIZED') != '' else 'False' }}"
 
     key:
       name: distributed_elk
