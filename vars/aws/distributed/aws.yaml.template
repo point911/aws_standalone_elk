@@ -25,6 +25,7 @@ aws:
       security_group: "{{ group.instances.security_groups }}"
       assign_public_ip: "{{ group.instances.assign_public_ip }}"
       ebs_optimized: "{{ group.instances.ebs_optimized }}"
+      volumes: "{{ group.instances.volumes }}"
 
 {% endfor %}
 {% endfor %}

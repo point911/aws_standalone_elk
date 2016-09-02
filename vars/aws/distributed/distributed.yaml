@@ -7,6 +7,7 @@ elasticsearch:
   index:
     number_of_shards: 2
     number_of_replicas: 1
+  version: 2.4.0
 
 inventory_groups:
   elk_master: "{{ lookup('env','AWS_ELK_MASTER_INVENTORY_GROUP') if lookup('env','AWS_ELK_MASTER_INVENTORY_GROUP') != '' else 'elk_master' }}"
@@ -47,34 +48,49 @@ env:
         instances:
           number: "{{ lookup('env','AWS_ELK_MASTER_INSTANCE_NUMBER') if lookup('env','AWS_ELK_MASTER_INSTANCE_NUMBER') != '' else 1 }}"
           name: "distributed_elk_master_app"
-          type: t2.medium
+          type: "{{ lookup('env','MASTER_NODES_INSTANCE_TYPE') if lookup('env','MASTER_NODES_INSTANCE_TYPE') != '' else 't2.medium' }}"
           # Termination by group criteria
           inventory_group: "{{ inventory_groups.elk_master }}"
           security_groups: ["distributed_elk"]
           assign_public_ip: "{{ lookup('env','MASTER_NODES_ASSIGN_PUBLIC_IP') if lookup('env','MASTER_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
           ebs_optimized: "{{ lookup('env','MASTER_NODES_EBS_OPTIMIZED') if lookup('env','MASTER_NODES_EBS_OPTIMIZED') != '' else 'False' }}"
+          volumes:
+          - device_name: /dev/sda1
+            device_type: gp2
+            volume_size: 25
+            delete_on_termination: true
 
       - node_type: data_node
         instances:
           number: "{{ lookup('env','AWS_ELK_DATA_INSTANCE_NUMBER') if lookup('env','AWS_ELK_DATA_INSTANCE_NUMBER') != '' else 2 }}"
           name: "distributed_elk_data_app"
-          type: t2.medium
+          type: "{{ lookup('env','DATA_NODES_INSTANCE_TYPE') if lookup('env','DATA_NODES_INSTANCE_TYPE') != '' else 't2.medium' }}"
           # Termination by group criteria
           inventory_group: "{{ inventory_groups.elk_data }}"
           security_groups: ["distributed_elk"]
           assign_public_ip: "{{ lookup('env','DATA_NODES_ASSIGN_PUBLIC_IP') if lookup('env','DATA_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
           ebs_optimized: "{{ lookup('env','DATA_NODES_EBS_OPTIMIZED') if lookup('env','DATA_NODES_EBS_OPTIMIZED') != '' else 'False' }}"
+          volumes:
+          - device_name: /dev/sda1
+            device_type: gp2
+            volume_size: 25
+            delete_on_termination: true
 
       - node_type: client_node
         instances:
           number: "{{ lookup('env','AWS_ELK_CLIENT_INSTANCE_NUMBER') if lookup('env','AWS_ELK_CLIENT_INSTANCE_NUMBER') != '' else 1 }}"
           name: "distributed_elk_client_app"
-          type: t2.medium
+          type: "{{ lookup('env','CLIENT_NODES_INSTANCE_TYPE') if lookup('env','CLIENT_NODES_INSTANCE_TYPE') != '' else 't2.medium' }}"
           # Termination by group criteria
           inventory_group: "{{ inventory_groups.elk_client }}"
           security_groups: ["distributed_elk"]
           assign_public_ip: "{{ lookup('env','CLIENT_NODES_ASSIGN_PUBLIC_IP') if lookup('env','CLIENT_NODES_ASSIGN_PUBLIC_IP') != '' else 'True' }}"
           ebs_optimized: "{{ lookup('env','CLIENT_NODES_EBS_OPTIMIZED') if lookup('env','CLIENT_NODES_EBS_OPTIMIZED') != '' else 'False' }}"
+          volumes:
+          - device_name: /dev/sda1
+            device_type: gp2
+            volume_size: 25
+            delete_on_termination: true
 
     key:
       name: distributed_elk
