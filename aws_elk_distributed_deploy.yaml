@@ -19,9 +19,9 @@
 
 - name: Install and configure elastcisearch for the whole group
   hosts:
-    - tag_inventory_group_{{ inventory_groups.elk_master }}
+#    - tag_inventory_group_{{ inventory_groups.elk_master }}
     - tag_inventory_group_{{ inventory_groups.elk_data}}
-    - tag_inventory_group_{{ inventory_groups.elk_client }}
+#    - tag_inventory_group_{{ inventory_groups.elk_client }}
   connection: ssh
   gather_facts: yes
 
