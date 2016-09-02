@@ -69,25 +69,25 @@
 #  roles:
 #    - name: community/logstash
 
-- name: Install and configure kibana in the client machines
-  hosts:
-    - tag_inventory_group_{{ inventory_groups.elk_client }}
-  connection: ssh
-  gather_facts: yes
-  become: yes
-
-  remote_user: ubuntu
-  vars_files:
-    - vars/aws/distributed/distributed.yaml
-
-  pre_tasks:
-    - name: Update apt
-      apt:
-        cache_valid_time: 1800
-        update_cache: yes
-      tags:
-        - build
-
-  roles:
-    - name: community/kibana
-    - name: community/elastalert
+#- name: Install and configure kibana in the client machines
+#  hosts:
+#    - tag_inventory_group_{{ inventory_groups.elk_client }}
+#  connection: ssh
+#  gather_facts: yes
+#  become: yes
+#
+#  remote_user: ubuntu
+#  vars_files:
+#    - vars/aws/distributed/distributed.yaml
+#
+#  pre_tasks:
+#    - name: Update apt
+#      apt:
+#        cache_valid_time: 1800
+#        update_cache: yes
+#      tags:
+#        - build
+#
+#  roles:
+#    - name: community/kibana
+#    - name: community/elastalert
