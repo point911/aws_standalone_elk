@@ -8,6 +8,11 @@ elasticsearch:
     number_of_shards: 2
     number_of_replicas: 1
   version: 2.4.0
+  paths:
+    master_data: /var/lib/elasticsearch
+    data_data:  ["/var/lib/esdata1", "/var/lib/esdata2"]
+    client_data: /var/lib/esdata1
+
 
 inventory_groups:
   elk_master: "{{ lookup('env','AWS_ELK_MASTER_INVENTORY_GROUP') if lookup('env','AWS_ELK_MASTER_INVENTORY_GROUP') != '' else 'elk_master' }}"
