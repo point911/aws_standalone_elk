@@ -10,7 +10,7 @@ elasticsearch:
   version: 2.4.0
   paths:
     master_data: /var/lib/elasticsearch
-    data_data:  ["/var/lib/esdata1", "/var/lib/esdata2"]
+    data_data:  '["/var/lib/esdata1", "/var/lib/esdata2"]'
     client_data: /var/lib/esdata1
 
 

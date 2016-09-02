@@ -41,9 +41,9 @@
         - build
 
   roles:
-    - name: community/ssh
-    - name: community/aws_ec2_hostname
-    - name: community/java
+#    - name: community/ssh
+#    - name: community/aws_ec2_hostname
+#    - name: community/java
     - name: community/elasticsearch
 
 #- name: Install and configure logstash on data machines
