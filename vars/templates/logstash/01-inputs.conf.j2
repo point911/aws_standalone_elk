@@ -6,6 +6,6 @@
 input {
     kafka {
             zk_connect => '{{ logstash.inputs.kafka.host }}'
-            topic_id => 'logstash'
+            topic_id => '{{ logstash.inputs.kafka.topic_id }}'
     }
 }

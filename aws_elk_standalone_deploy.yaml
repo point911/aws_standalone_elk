@@ -15,7 +15,8 @@
         - 1
         - 15
 
-- name: Install kafka and zookeeper
+
+- name: Install standalone ELK
   hosts:
     - tag_inventory_group_{{ env.aws.instances.inventory_group }}
   connection: ssh
